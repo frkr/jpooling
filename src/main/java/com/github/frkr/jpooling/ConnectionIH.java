@@ -36,7 +36,7 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class ConnectionIH implements InvocationHandler {
+class ConnectionIH implements InvocationHandler {
 
     protected final Connection connection;
     protected final Pooling pool;
