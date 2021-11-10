@@ -70,14 +70,17 @@ public class PoolingFreshing extends Pooling {
     }
     //endregion
 
-    Map<Connection, AtomicInteger> usadas = new HashMap<Connection, AtomicInteger>();
+    protected Map<Connection, AtomicInteger> usadas = new HashMap<Connection, AtomicInteger>();
 
     @Override
     protected void close(ConnectionIH connIH) {
-        AtomicInteger used = usadas.get(connIH.connection);
-        if (used == null) {
-            used = new AtomicInteger(0);
-            usadas.put(connIH.connection, used);
+        AtomicInteger used;
+        synchronized (usadas) {
+            used = usadas.get(connIH.connection);
+            if (used == null) {
+                used = new AtomicInteger(0);
+                usadas.put(connIH.connection, used);
+            }
         }
         if (used.incrementAndGet() < getRefresh()) {
             super.close(connIH);

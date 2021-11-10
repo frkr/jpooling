@@ -281,6 +281,11 @@ public class Pooling {
                         );
                         alive.add(handler);
                         return connProxy;
+                    } else {
+                        try {
+                            cn.close();
+                        } catch (SQLException e) {
+                        }
                     }
                 }
             } catch (Throwable e) {
@@ -311,6 +316,9 @@ public class Pooling {
         setRunning(false);
         List<Connection> poolFechar = new LinkedList<Connection>();
         pool.drainTo(poolFechar);
+        List<ConnectionIH> ativasFechar = new LinkedList<ConnectionIH>();
+        alive.drainTo(ativasFechar);
+
         for (Connection obj : poolFechar) {
             if (obj != null) {
                 try {
@@ -320,8 +328,6 @@ public class Pooling {
             }
         }
 
-        List<ConnectionIH> ativasFechar = new LinkedList<ConnectionIH>();
-        alive.drainTo(ativasFechar);
         for (ConnectionIH obj : ativasFechar) {
             if (obj != null) {
                 try {
