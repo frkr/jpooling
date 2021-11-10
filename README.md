@@ -1,14 +1,21 @@
 # Features
 
-  * No SingleTon
-  * Creates a deamon thread for create a new connection.
-  * Timer for killing all connection. Recreates automatically if used again.
-  * Another pooling named "PoolingFreshing" for setting how much times will use the same connection.
-  * Thread Safe
+* No SingleTon
+* Thread Safe
+* Leak detection
+* Deamon thread for new connections
+* Timer for killing all connection. Recreates automatically if used again.
+* Another pooling named "PoolingFreshing" for setting how much times will use the same connection.
+* 'DriverManager.getConnection' method could be overrided.
+* getConnection could draw several wait/stuck. Will create another connection exceding the total connections. (Force New
+  on Stuck setting)
+* ClosePool will try to close leaked connections.
 
 # Know issues
 
-  * Do not forget to close an connection. Otherwise you will have a lost connection for ever.
-  * For JTDS does not work the "isValid" method. So overwrite it.
-  * Method "isValid" has 15 seconds of timeout.
-  * Some databases are automatically "Auto commit". So, you can disable it manually.
+* For JTDS does not work the "isValid" method. So overwrite it.
+* Some databases are automatically "Auto commit". So, you can disable it manually.
+
+### See Settings on class
+
+[See settings on constructor](src/main/java/com/github/frkr/jpooling/Pooling.java)
