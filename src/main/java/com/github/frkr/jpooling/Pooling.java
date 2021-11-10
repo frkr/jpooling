@@ -163,9 +163,9 @@ public class Pooling {
      * @see java.util.concurrent.TimeUnit
      */
     public Pooling(String connectionUrl, String user, String pass) {
-        this.pulseMilis = TimeUnit.SECONDS.toMillis(20); // FIXME Deixar 5 minutos
+        this.pulseMilis = TimeUnit.MINUTES.toMillis(5);
         this.isValidTimeoutSeconds = 15;
-        this.connections = 1;// FIXME aumentar connections
+        this.connections = 15;
         this.forceNewOnStuck = true;
         this.running = true;
         this.threadString = "jpooling";
