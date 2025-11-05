@@ -22,9 +22,9 @@
 
 # Why?
 
-- Why was this project done? In a very old project, it was used because there was a bug in the cluster where from time to time the connection with jTDS was no longer valid.
+- Why was this project was made? In a very old project, it was used because there was a bug in the cluster where from time to time the connection with jTDS was no longer valid.
 
-- To protect the copy right solution (as well as all the other things I put in the git).
+- To protect the copyright solution (as well as all the other things I put in the git).
 
 - For laziness to put something else in the project inspired this class here: https://gist.github.com/frkr/d1d4707d094bb61ac3abfa06600b29f1
 
