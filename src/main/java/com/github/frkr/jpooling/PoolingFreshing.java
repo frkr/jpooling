@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Davi Saranszky Mesquita <davimesquita@gmail.com>
+ * Copyright (c) 2025, Davi Saranszky Mesquita <davimesquita@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -91,7 +91,6 @@ public class PoolingFreshing extends Pooling {
                 connIH.connection.close();
             } catch (Throwable e) {
             }
-            CreateConnectionThread.start(this);
         }
     }
 

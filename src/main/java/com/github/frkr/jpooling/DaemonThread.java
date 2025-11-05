@@ -31,41 +31,18 @@
 
 package com.github.frkr.jpooling;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.sql.Connection;
-import java.util.concurrent.atomic.AtomicLong;
-
-class ConnectionIH implements InvocationHandler {
-
-    protected final Connection connection;
-    protected final Pooling pool;
-    protected final Exception leak;
-    protected final AtomicLong time;
-
-    public ConnectionIH(Connection connection, Pooling pool, Exception leak) {
-        this.connection = connection;
-        this.pool = pool;
-        this.leak = leak;
-        this.time = new AtomicLong(System.currentTimeMillis());
+public final class DaemonThread {
+    public static Thread newDaemonThread(Runnable run) {
+        Thread th = new Thread(run);
+        th.setDaemon(true);
+        th.start();
+        return th;
     }
-
-    @Override
-    public Object invoke(final Object proxy,final Method method, final Object[] args) throws Throwable {
-        this.time.set(System.currentTimeMillis());
-        if ("close".equals(method.getName())) {
-            DaemonThread.newDaemonThread(new Runnable() {
-                public void run() {
-                    try {
-                        pool.close(ConnectionIH.this);
-                    } catch (Exception e) {
-                    }
-                }
-            });
-            return null;
-        } else {
-            return method.invoke(this.connection, args);
-        }
+    public static Thread newDaemonThread(String name, Runnable run) {
+        Thread th = new Thread(run);
+        th.setName(name+"-"+th.getId());
+        th.setDaemon(true);
+        th.start();
+        return th;
     }
 }
-

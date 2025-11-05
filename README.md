@@ -3,7 +3,7 @@
 * No SingleTon
 * Thread Safe
 * Leak detection
-* Deamon thread for new connections
+* Deamon thread for new connections and closing connections.
 * Timer for killing all connection. Recreates automatically if used again.
 * Another pooling named "PoolingFreshing" for setting how much times will use the same connection.
 * 'DriverManager.getConnection' method could be overrided.

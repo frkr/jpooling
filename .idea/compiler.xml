@@ -9,8 +9,5 @@
         <module name="jpooling" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="jpooling" target="1.6" />
-    </bytecodeTargetLevel>
   </component>
 </project>

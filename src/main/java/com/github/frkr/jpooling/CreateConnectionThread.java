@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Davi Saranszky Mesquita <davimesquita@gmail.com>
+ * Copyright (c) 2025, Davi Saranszky Mesquita <davimesquita@gmail.com>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,16 +41,12 @@ class CreateConnectionThread implements Runnable {
         this.forceNewOnStuck = forceNewOnStuck;
     }
 
-    public static Thread start(Pooling pool) {
-        return start(pool, false);
+    public static void start(Pooling pool) {
+         start(pool, false);
     }
 
-    public static Thread start(Pooling pool, boolean forceNewOnStuck) {
-        Thread th = new Thread(new CreateConnectionThread(pool, forceNewOnStuck));
-        th.setName(pool.getThreadString() + "-Create-" + th.getId());
-        th.setDaemon(true);
-        th.start();
-        return th;
+    public static void start(Pooling pool, boolean forceNewOnStuck) {
+         DaemonThread.newDaemonThread(pool.getThreadString() + "-Create",new CreateConnectionThread(pool, forceNewOnStuck));
     }
 
     public void run() {
