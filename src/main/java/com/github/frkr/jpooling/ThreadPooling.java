@@ -44,11 +44,7 @@ class ThreadPooling implements Runnable {
     }
 
     public static Thread start(Pooling pool) {
-        Thread th = new Thread(new ThreadPooling(pool));
-        th.setName(pool.getThreadString() + "-" + th.getId());
-        th.setDaemon(true);
-        th.start();
-        return th;
+        return DaemonThread.newDaemonThread(pool.getThreadString(), new ThreadPooling(pool));
     }
 
     public void run() {

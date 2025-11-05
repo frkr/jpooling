@@ -73,7 +73,7 @@ public class PoolingFreshing extends Pooling {
     protected Map<Connection, AtomicInteger> usadas = new HashMap<Connection, AtomicInteger>();
 
     @Override
-    protected void close(ConnectionIH connIH) {
+    protected void close(final ConnectionIH connIH) {
         AtomicInteger used;
         synchronized (usadas) {
             used = usadas.get(connIH.connection);
@@ -87,10 +87,15 @@ public class PoolingFreshing extends Pooling {
         } else {
             alive.remove(connIH);
             usadas.remove(connIH.connection);
-            try {
-                connIH.connection.close();
-            } catch (Throwable e) {
-            }
+            DaemonThread.newDaemonThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        connIH.connection.close();
+                    } catch (Throwable e) {
+                    }
+                }
+            });
         }
     }
 

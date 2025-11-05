@@ -42,11 +42,11 @@ class CreateConnectionThread implements Runnable {
     }
 
     public static void start(Pooling pool) {
-         start(pool, false);
+        start(pool, false);
     }
 
     public static void start(Pooling pool, boolean forceNewOnStuck) {
-         DaemonThread.newDaemonThread(pool.getThreadString() + "-Create",new CreateConnectionThread(pool, forceNewOnStuck));
+        DaemonThread.newDaemonThread(pool.getThreadString() + "-Create", new CreateConnectionThread(pool, forceNewOnStuck));
     }
 
     public void run() {

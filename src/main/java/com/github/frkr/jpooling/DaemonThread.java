@@ -38,9 +38,10 @@ public final class DaemonThread {
         th.start();
         return th;
     }
+
     public static Thread newDaemonThread(String name, Runnable run) {
         Thread th = new Thread(run);
-        th.setName(name+"-"+th.getId());
+        th.setName(name + "-" + th.getId());
         th.setDaemon(true);
         th.start();
         return th;

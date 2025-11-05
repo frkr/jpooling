@@ -300,13 +300,18 @@ public class Pooling {
         }
     }
 
-    protected void close(ConnectionIH connIH) {
+    protected void close(final ConnectionIH connIH) {
         alive.remove(connIH);
         if (!isRunning() || (pool.size() + alive.size() + 1) > getConnections()) {
-            try {
-                connIH.connection.close();
-            } catch (Throwable e) {
-            }
+            DaemonThread.newDaemonThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        connIH.connection.close();
+                    } catch (Throwable e) {
+                    }
+                }
+            });
         } else {
             pool.add(connIH.connection);
         }
@@ -330,12 +335,18 @@ public class Pooling {
 
         for (ConnectionIH obj : ativasFechar) {
             if (obj != null) {
-                try {
-                    obj.connection.close();
-                } catch (Throwable e) {
-                    obj.leak.printStackTrace();
-                    new Exception(getThreadString() + "-ClosePool", e).printStackTrace();
-                }
+                final ConnectionIH obj2 = obj;
+                DaemonThread.newDaemonThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            obj2.connection.close();
+                        } catch (Throwable e) {
+                            obj2.leak.printStackTrace();
+                            new Exception(getThreadString() + "-ClosePool", e).printStackTrace();
+                        }
+                    }
+                });
             }
         }
     }

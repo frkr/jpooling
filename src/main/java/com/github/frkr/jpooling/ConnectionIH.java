@@ -51,17 +51,10 @@ class ConnectionIH implements InvocationHandler {
     }
 
     @Override
-    public Object invoke(final Object proxy,final Method method, final Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         this.time.set(System.currentTimeMillis());
         if ("close".equals(method.getName())) {
-            DaemonThread.newDaemonThread(new Runnable() {
-                public void run() {
-                    try {
-                        pool.close(ConnectionIH.this);
-                    } catch (Exception e) {
-                    }
-                }
-            });
+            pool.close(this);
             return null;
         } else {
             return method.invoke(this.connection, args);
